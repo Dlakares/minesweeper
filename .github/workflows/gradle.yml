@@ -36,4 +36,4 @@ jobs:
     - name: Build with Gradle Wrapper
       run: gradle compileJava
     - name: Test Java
-      run: gradle compileJavaTest
+      run: gradle compileTestJava
