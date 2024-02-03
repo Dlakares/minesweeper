@@ -1,15 +1,17 @@
 package ru.studiotg.minesweeper.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
+@Builder
 public class GameInfoResponse {
     private UUID game_id;
-    private int weight;
+    private int width;
     private int height;
-    private int minesCount;
+    private int mines_count;
     private boolean completed;
-    private String field;
+    private String[] field;
 }

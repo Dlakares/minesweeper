@@ -18,12 +18,16 @@ import java.util.UUID;
 @Table(name = "games")
 public class Game {
 
+    public Game(Field field) {
+        this.field = field;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "field_id")
     private Field field;
 

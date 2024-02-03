@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS fields (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY UNIQUE,
-    weight int NOT NULL,
+    width int NOT NULL,
     height int NULL,
     mines_count int NOT NULL,
     field varchar[][] NOT NULL,

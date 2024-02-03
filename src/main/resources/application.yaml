@@ -23,3 +23,9 @@ spring:
       host: localhost
   server:
     port: 8080
+
+minesweeper:
+  max-size: 30
+  empty-char: ' '
+  mine-char: X
+  closed: c
