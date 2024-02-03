@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS fields (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY UNIQUE,
     weight int NOT NULL,
@@ -9,7 +11,7 @@ CREATE TABLE IF NOT EXISTS fields (
 );
 
 CREATE TABLE IF NOT EXISTS games (
-    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY UNIQUE,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     field_id BIGINT NOT NULL,
     result boolean DEFAULT false NOT NULL,
     started_at timestamptz DEFAULT current_timestamp,
