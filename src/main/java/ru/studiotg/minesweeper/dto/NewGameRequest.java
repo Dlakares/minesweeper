@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class NewGameRequest {
-    private int weight;
+    private int width;
     private int height;
-    private int minesCount;
+    private int mines_count;
 }

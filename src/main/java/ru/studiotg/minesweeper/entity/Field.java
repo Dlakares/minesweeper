@@ -18,12 +18,19 @@ import java.time.LocalDateTime;
 @Table(name = "fields")
 public class Field {
 
+    public Field(int width, int height, int minesCount, String[] field) {
+        this.width = width;
+        this.height = height;
+        this.minesCount = minesCount;
+        this.field = field;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "weight")
-    private int weight;
+    @Column(name = "width")
+    private int width;
 
     @Column(name = "height")
     private int height;
