@@ -12,6 +12,6 @@ public class GameInfoResponse {
     private int width;
     private int height;
     private int mines_count;
+    private String[][] field;
     private boolean completed;
-    private String[] field;
 }

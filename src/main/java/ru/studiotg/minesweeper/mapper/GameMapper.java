@@ -11,11 +11,11 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface GameMapper {
 
-    @Mapping(target = "fieldId", source = "field.id")
+    @Mapping(target = "field", source = "field")
     GameDto toDto(Game game);
 
     List<GameDto> toListDto(List<Game> games);
 
-    @Mapping(source = "fieldId", target = "field", ignore = true)
+    @Mapping(source = "field", target = "field")
     Game toEntity(GameDto dto);
 }

@@ -29,7 +29,7 @@ public class GameInfoMapper {
         int height = field.getHeight();
         int minesCount = field.getMinesCount();
         boolean completed = game.isResult();
-        String[] gameField = getField(field.getField());
+        String[][] gameField = getField(field.getField());
 
         return GameInfoResponse.builder()
                 .game_id(uuid)
@@ -41,17 +41,16 @@ public class GameInfoMapper {
                 .build();
     }
 
-    private String[] getField(String[] field) {
+    private String[][] getField(String[] field) {
+        String[][] res = new String[field.length][field[0].length()];
         for(int i = 0; i < field.length; i++) {
-            char[] row = field[i].toCharArray();
             for(int j = 0; j < field[i].length(); j++) {
-                if(row[j] == CLOSED || row[j] == MINE) {
-                    row[j] = EMPTY;
+                if(field[i].charAt(j) == (CLOSED) || field[i].charAt(j) == (MINE)) {
+                    res[i][j] = Character.toString(EMPTY);
                 }
             }
-            field[i] = new String(row);
         }
 
-        return field;
+        return res;
     }
 }

@@ -27,7 +27,7 @@ public class Game {
     @Column(name = "id")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "field_id")
     private Field field;
 
