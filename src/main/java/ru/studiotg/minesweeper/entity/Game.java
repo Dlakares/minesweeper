@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -37,7 +36,6 @@ public class Game {
     private LocalDateTime startedAt;
 
     @Column(name = "ended_at")
-    @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime endedAt;
 }

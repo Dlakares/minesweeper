@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS games (
     field_id BIGINT NOT NULL,
     result boolean DEFAULT false NOT NULL,
     started_at timestamptz DEFAULT current_timestamp,
-    ended_at timestamptz DEFAULT current_timestamp,
+    ended_at timestamptz,
 
     CONSTRAINT fk_field_id FOREIGN KEY (field_id) REFERENCES fields (id)
 );
