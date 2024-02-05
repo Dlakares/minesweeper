@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import ru.studiotg.minesweeper.dto.GameDto;
@@ -13,9 +14,12 @@ import ru.studiotg.minesweeper.mapper.GameMapper;
 import ru.studiotg.minesweeper.repository.GameRepository;
 import ru.studiotg.minesweeper.util.JsonMapper;
 
+import java.time.Duration;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor
@@ -23,9 +27,11 @@ import java.util.UUID;
 public class GameCache {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper mapper;
-   private final JsonMapper jsonMapper;
+    private final JsonMapper jsonMapper;
     private final GameRepository gameRepository;
     private final GameMapper gameMapper;
+    @Value("${spring.data.redis.ttl}")
+    private Duration ttl;
 
     @PostConstruct
     public void init() {
@@ -59,6 +65,7 @@ public class GameCache {
         try {
             String json = mapper.writeValueAsString(dto);
             redisTemplate.opsForValue().set(dto.getId().toString(), json);
+            redisTemplate.expire(dto.getId().toString(), ttl);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

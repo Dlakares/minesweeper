@@ -21,6 +21,7 @@ spring:
     redis:
       port: 6379
       host: localhost
+      ttl: PT1M
   server:
     port: 8080
 
