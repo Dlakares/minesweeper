@@ -35,7 +35,7 @@ public class GameProcessor {
         if (fieldArray[row][col] == MINE) {
             return false;
         }
-        if (fieldArray[row][col] == OPEN) {
+        if (fieldArray[row][col] == OPEN || fieldArray[row][col] != CLOSED) {
             throw new IllegalArgumentException("Cell is already opened");
         }
 
