@@ -1,5 +1,6 @@
 package ru.studiotg.minesweeper.util;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class GameProcessor {
     private final int[][] MOVES = new int[][]{
             {1, 1},

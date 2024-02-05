@@ -40,6 +40,10 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+
+	testImplementation ("org.testcontainers:junit-jupiter")
+	testImplementation ("org.testcontainers:postgresql")
+	testImplementation ("io.rest-assured:rest-assured")
 }
 
 tasks.withType<Test> {

@@ -1,5 +1,7 @@
 package ru.studiotg.minesweeper.util;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.studiotg.minesweeper.entity.Field;
@@ -8,6 +10,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 @Component
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class FieldBuilder {
     @Value("${minesweeper.empty-char}")
     private char EMPTY;
