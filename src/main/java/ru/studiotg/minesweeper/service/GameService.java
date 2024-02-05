@@ -15,6 +15,8 @@ import ru.studiotg.minesweeper.util.FieldBuilder;
 import ru.studiotg.minesweeper.util.GameProcessor;
 import ru.studiotg.minesweeper.util.NewGameRequestValidator;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class GameService {
@@ -46,6 +48,8 @@ public class GameService {
         boolean isWin = gameProcessor.isCompleted(game.getField());
         if(isTurnMine || isWin) {
             game.setResult(true);
+            game.setEndedAt(LocalDateTime.now());
+            gameRepository.save(game);
             cache.delete(request.getGame_id());
             gameProcessor.openAll(game.getField());
             return gameInfoMapper.toGameInfoResponse(game, true, isWin);
