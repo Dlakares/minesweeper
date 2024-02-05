@@ -12,6 +12,7 @@ import ru.studiotg.minesweeper.mapper.GameInfoMapper;
 import ru.studiotg.minesweeper.repository.FieldRepository;
 import ru.studiotg.minesweeper.repository.GameRepository;
 import ru.studiotg.minesweeper.util.FieldBuilder;
+import ru.studiotg.minesweeper.util.GameProcessor;
 import ru.studiotg.minesweeper.util.NewGameRequestValidator;
 
 @Service
@@ -23,19 +24,33 @@ public class GameService {
     private final GameRepository gameRepository;
     private final GameInfoMapper gameInfoMapper;
     private final GameCache cache;
+    private final GameProcessor gameProcessor;
 
     public GameInfoResponse createNewGame(NewGameRequest request) {
         newGameRequestValidator.check(request);
         Field field = fieldBuilder.getGameField(request.getWidth(), request.getHeight(), request.getMines_count());
         Game game = new Game(field);
-        game = gameRepository.saveAndFlush(game);
-        fieldRepository.saveAndFlush(field);
+        game = gameRepository.save(game);
+        fieldRepository.save(field);
         cache.put(game);
 
-        return gameInfoMapper.toGameInfoResponse(game);
+        return gameInfoMapper.toGameInfoResponse(game, false, false);
     }
 
     public GameInfoResponse makeTurn(GameTurnRequest request) {
-        return null;
+        if(!cache.contains(request.getGame_id())) {
+            throw new RuntimeException("Game is over");
+        }
+        Game game = cache.get(request.getGame_id()).get();
+        boolean isTurnMine = !gameProcessor.makeTurn(request.getCol(), request.getRow(), game.getField());
+        boolean isWin = gameProcessor.isCompleted(game.getField());
+        if(isTurnMine || isWin) {
+            game.setResult(true);
+            cache.delete(request.getGame_id());
+            gameProcessor.openAll(game.getField());
+            return gameInfoMapper.toGameInfoResponse(game, true, isWin);
+        }
+        cache.put(game);
+        return gameInfoMapper.toGameInfoResponse(game, false, false);
     }
 }

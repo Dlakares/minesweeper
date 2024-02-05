@@ -29,3 +29,4 @@ minesweeper:
   empty-char: ' '
   mine-char: X
   closed: c
+  open: 0

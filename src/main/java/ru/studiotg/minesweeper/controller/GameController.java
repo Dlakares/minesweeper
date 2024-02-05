@@ -25,7 +25,7 @@ public class GameController {
     }
 
     @PostMapping("/turn")
-    public ResponseEntity<GameInfoResponse> makeTurn(GameTurnRequest request) {
+    public ResponseEntity<GameInfoResponse> makeTurn(@RequestBody GameTurnRequest request) {
         log.info("Endpoint <makeTurn>, uri '/game/v1/turn' was called successfully");
         return ResponseEntity
                 .ok(gameService.makeTurn(request));

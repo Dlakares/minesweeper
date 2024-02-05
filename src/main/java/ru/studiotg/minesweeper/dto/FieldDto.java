@@ -7,6 +7,6 @@ public class FieldDto {
 
     private int width;
     private int height;
-    private int mineCount;
+    private int minesCount;
     private String[] field;
 }
