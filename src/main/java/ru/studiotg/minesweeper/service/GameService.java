@@ -41,7 +41,7 @@ public class GameService {
 
     public GameInfoResponse makeTurn(GameTurnRequest request) {
         if(!cache.contains(request.getGame_id())) {
-            throw new RuntimeException("Game is over");
+            throw new RuntimeException("Game is over or expired time to play");
         }
         Game game = cache.get(request.getGame_id()).get();
         boolean isTurnMine = !gameProcessor.makeTurn(request.getCol(), request.getRow(), game.getField());

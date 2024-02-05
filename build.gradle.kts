@@ -38,9 +38,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/redis.clients/jedis
 	implementation("redis.clients:jedis:5.1.0")
 
-	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
-	implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
-
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 }
 
 tasks.withType<Test> {
