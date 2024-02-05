@@ -11,9 +11,11 @@ import ru.studiotg.minesweeper.dto.GameDto;
 import ru.studiotg.minesweeper.entity.Game;
 import ru.studiotg.minesweeper.mapper.GameMapper;
 import ru.studiotg.minesweeper.repository.GameRepository;
+import ru.studiotg.minesweeper.util.JsonMapper;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class GameCache {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper mapper;
+   private final JsonMapper jsonMapper;
     private final GameRepository gameRepository;
     private final GameMapper gameMapper;
 
@@ -32,15 +35,23 @@ public class GameCache {
         }
     }
 
-    public Optional<Game> get(String id) {
-        GameDto dto = (GameDto) redisTemplate.opsForValue().get(id);
-        Game game = gameMapper.toEntity(dto);
-        return Optional.ofNullable(game);
+    public Optional<Game> get(UUID id) {
+        GameDto dto = jsonMapper.toObject(redisTemplate.opsForValue().get(id.toString()).toString(), GameDto.class).orElseThrow(() -> new RuntimeException("Game not found"));
+        return Optional.ofNullable(gameMapper.toEntity(dto));
     }
 
     public boolean put(Game game) {
         GameDto dto = gameMapper.toDto(game);
         put(dto);
+        return true;
+    }
+
+    public boolean contains(UUID id) {
+        return Optional.ofNullable(redisTemplate.hasKey(id.toString())).orElse(false);
+    }
+
+    public boolean delete(UUID id) {
+        redisTemplate.delete(id.toString());
         return true;
     }
 
