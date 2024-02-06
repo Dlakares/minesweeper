@@ -18,13 +18,6 @@ import java.time.LocalDateTime;
 @Table(name = "fields")
 public class Field {
 
-    public Field(int width, int height, int minesCount, String[] field) {
-        this.width = width;
-        this.height = height;
-        this.minesCount = minesCount;
-        this.field = field;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -50,4 +43,11 @@ public class Field {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public Field(int width, int height, int minesCount, String[] field) {
+        this.width = width;
+        this.height = height;
+        this.minesCount = minesCount;
+        this.field = field;
+    }
 }

@@ -32,16 +32,16 @@ public class FieldBuilder {
 
     private String[] buildField(int width, int height, int minesCount) {
         String[] field = new String[width];
-        for(int i = 0; i < width; i++) {
+        for (int i = 0; i < width; i++) {
             char[] row = new char[height];
             Arrays.fill(row, CLOSED);
             field[i] = new String(row);
         }
         int remainingMines = minesCount;
-        while(remainingMines != 0) {
+        while (remainingMines != 0) {
             int row = getRandomInt(0, width - 1);
             int col = getRandomInt(0, height - 1);
-            if(field[row].charAt(col) != MINE) {
+            if (field[row].charAt(col) != MINE) {
                 field[row] = field[row].substring(0, col) + MINE + field[row].substring(col + 1);
                 remainingMines--;
             }

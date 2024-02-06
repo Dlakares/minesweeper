@@ -55,11 +55,11 @@ public class GameProcessor {
     private void openCell(int row, int col, char[][] fieldArray) {
         int minesCount = getNearestMinesCount(row, col, fieldArray);
         fieldArray[row][col] = minesCount == 0 ? OPEN : Character.forDigit(minesCount, 10);
-        if(minesCount == 0) {
-            for(int[] move : MOVES) {
+        if (minesCount == 0) {
+            for (int[] move : MOVES) {
                 int nextRow = row + move[0];
                 int nextCol = col + move[1];
-                if(isValid(nextRow, nextCol, fieldArray)) {
+                if (isValid(nextRow, nextCol, fieldArray)) {
                     openCell(nextRow, nextCol, fieldArray);
                 }
             }
@@ -68,10 +68,10 @@ public class GameProcessor {
 
     private int getNearestMinesCount(int row, int col, char[][] fieldArray) {
         int count = 0;
-        for(int [] move : MOVES) {
+        for (int[] move : MOVES) {
             int nextRow = row + move[0];
             int nextCol = col + move[1];
-            if(isValid(nextRow, nextCol, fieldArray) && isMine(nextRow, nextCol, fieldArray)) {
+            if (isValid(nextRow, nextCol, fieldArray) && isMine(nextRow, nextCol, fieldArray)) {
                 count++;
             }
         }
@@ -82,7 +82,7 @@ public class GameProcessor {
         int count = 0;
         for (String row : field.getField()) {
             for (char c : row.toCharArray()) {
-                if(c == MINE || c == CLOSED) {
+                if (c == MINE || c == CLOSED) {
                     count++;
                 }
             }
@@ -106,9 +106,9 @@ public class GameProcessor {
         log.info("Open all field with id = {}", field.getId());
         String[] gameField = field.getField();
         char[][] gameFieldArray = Arrays.stream(gameField).map(String::toCharArray).toArray(char[][]::new);
-        for(int row = 0; row < gameField.length; row++) {
-            for(int col = 0; col < gameField[row].length(); col++) {
-                if(gameField[row].charAt(col) == CLOSED) {
+        for (int row = 0; row < gameField.length; row++) {
+            for (int col = 0; col < gameField[row].length(); col++) {
+                if (gameField[row].charAt(col) == CLOSED) {
                     gameFieldArray[row][col] = getNearestMinesCount(row, col, gameFieldArray) == 0 ? OPEN : Character.forDigit(getNearestMinesCount(row, col, gameFieldArray), 10);
                 }
             }

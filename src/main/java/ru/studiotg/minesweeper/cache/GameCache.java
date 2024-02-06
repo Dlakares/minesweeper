@@ -43,7 +43,11 @@ public class GameCache {
 
     public Optional<Game> get(UUID id) {
         log.info("Get game {} from cache", id);
-        GameDto dto = jsonMapper.toObject(redisTemplate.opsForValue().get(id.toString()).toString(), GameDto.class).orElseThrow(() -> new RuntimeException("Game not found"));
+        GameDto dto = jsonMapper
+                .toObject(redisTemplate.opsForValue()
+                        .get(id.toString()).toString(),
+                        GameDto.class)
+                .orElseThrow(() -> new RuntimeException("Game not found"));
         return Optional.ofNullable(gameMapper.toEntity(dto));
     }
 
