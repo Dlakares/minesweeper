@@ -2,6 +2,7 @@ package ru.studiotg.minesweeper.util;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.studiotg.minesweeper.entity.Field;
@@ -9,6 +10,7 @@ import ru.studiotg.minesweeper.entity.Field;
 import java.util.Arrays;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class GameProcessor {
@@ -33,16 +35,19 @@ public class GameProcessor {
     private char OPEN;
 
     public boolean makeTurn(int col, int row, Field field) {
+        log.info("Make turn: col = {}, row = {}, field with id = {}", col, row, field.getId());
         char[][] fieldArray = Arrays.stream(field.getField()).map(String::toCharArray).toArray(char[][]::new);
         if (fieldArray[row][col] == MINE) {
+            log.info("Game lost. Field with id = {}", field.getId());
             return false;
         }
         if (fieldArray[row][col] == OPEN || fieldArray[row][col] != CLOSED) {
+            log.info("Field with id = {} already opened", field.getId());
             throw new IllegalArgumentException("Cell is already opened");
         }
-
+        log.info("Starting to open field with id = {}", field.getId());
         openCell(row, col, fieldArray);
-
+        log.info("Field with id = {} opened", field.getId());
         field.setField(Arrays.stream(fieldArray).map(String::new).toArray(String[]::new));
         return true;
     }
@@ -98,6 +103,7 @@ public class GameProcessor {
     }
 
     public void openAll(Field field) {
+        log.info("Open all field with id = {}", field.getId());
         String[] gameField = field.getField();
         char[][] gameFieldArray = Arrays.stream(gameField).map(String::toCharArray).toArray(char[][]::new);
         for(int row = 0; row < gameField.length; row++) {
@@ -108,5 +114,6 @@ public class GameProcessor {
             }
             gameField[row] = new String(gameFieldArray[row]);
         }
+        log.info("Field with id = {} opened", field.getId());
     }
 }

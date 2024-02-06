@@ -15,11 +15,9 @@ import ru.studiotg.minesweeper.repository.GameRepository;
 import ru.studiotg.minesweeper.util.JsonMapper;
 
 import java.time.Duration;
-import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor
@@ -35,13 +33,16 @@ public class GameCache {
 
     @PostConstruct
     public void init() {
+        log.info("Starting init game cache");
         List<Game> games = gameRepository.findByEndedAtIsNull();
         for (GameDto dto : gameMapper.toListDto(games)) {
             put(dto);
         }
+        log.info("Finished init game cache");
     }
 
     public Optional<Game> get(UUID id) {
+        log.info("Get game {} from cache", id);
         GameDto dto = jsonMapper.toObject(redisTemplate.opsForValue().get(id.toString()).toString(), GameDto.class).orElseThrow(() -> new RuntimeException("Game not found"));
         return Optional.ofNullable(gameMapper.toEntity(dto));
     }
@@ -53,21 +54,25 @@ public class GameCache {
     }
 
     public boolean contains(UUID id) {
+        log.info("Check if game {} exists in cache", id);
         return Optional.ofNullable(redisTemplate.hasKey(id.toString())).orElse(false);
     }
 
     public boolean delete(UUID id) {
+        log.info("Delete game {} from cache", id);
         redisTemplate.delete(id.toString());
         return true;
     }
 
     private void put(GameDto dto) {
+        log.info("Trying to put game with id {} to cache", dto.getId());
         try {
             String json = mapper.writeValueAsString(dto);
             redisTemplate.opsForValue().set(dto.getId().toString(), json);
             redisTemplate.expire(dto.getId().toString(), ttl);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to put game to cache with id " + dto.getId(), e);
         }
+        log.info("Successfully put game with id {} to cache", dto.getId());
     }
 }

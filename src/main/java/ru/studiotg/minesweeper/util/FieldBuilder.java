@@ -2,6 +2,7 @@ package ru.studiotg.minesweeper.util;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.studiotg.minesweeper.entity.Field;
@@ -11,6 +12,7 @@ import java.util.Random;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 @RequiredArgsConstructor
 public class FieldBuilder {
     @Value("${minesweeper.empty-char}")
@@ -22,8 +24,9 @@ public class FieldBuilder {
 
 
     public Field getGameField(int width, int height, int minesCount) {
+        log.info("Creating field for new game {}x{} with {} mines", width, height, minesCount);
         String[] field = buildField(width, height, minesCount);
-
+        log.info("Successfully field for new game {}x{} with {} mines", width, height, minesCount);
         return new Field(width, height, minesCount, field);
     }
 
