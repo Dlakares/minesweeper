@@ -99,9 +99,4 @@ class MinesweeperApplicationTests {
                 .then()
                 .statusCode(200);
     }
-
-//	@Test
-//	void contextLoads() {
-//	}
-
 }
